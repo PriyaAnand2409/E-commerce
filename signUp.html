@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en" class="form-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Sign In</title>
+    <link rel="stylesheet" href="index.css"/> 
+</head>
+<body class="form-body">
+    <div class="form-container">
+        <!-- Signin/Signup Toggle -->
+        <input type="radio" id="signin-tab" name="tab" checked>
+        <label class="form-label" for="signin-tab">Sign In</label>
+        
+        <input type="radio" id="signup-tab" name="tab">
+        <label class="form-label" for="signup-tab">Sign Up</label>
+
+        <!-- Signin Form -->
+        <div class="form signin-form">
+            <h2>Sign In</h2>
+            <form action="#" method="POST" onsubmit="return validateForm(event)">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="Conform password" placeholder="Conform Password" required>
+                 
+                <button type="submit">Sign In</button>
+            </form>
+            <p class="form-text">Don't have an account? <label class="form-label" for="signup-tab">Sign Up Here</label></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form signup-form">
+            <h2>Sign Up</h2>
+            <form action="#" method="POST">
+                <input type="text" name="fullname" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="Conform  password" placeholder="Conform Password" required>
+                
+                <button type="submit">Sign Up</button>
+                
+            </form>
+            <p class="form-text">Already have an account? <label class="form-label" for="signin-tab">Sign In Here</label></p>
+        </div>
+    </div>
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+            
+            const signInForm = document.getElementById('signin-form');
+            const signUpForm = document.getElementById('signup-form');
+
+            // Single function to handle both signin and signup
+            function handleForm(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                // Identify which form is submitted (sign in or sign up)
+                if (event.target.id === 'signup-form') {
+                    const fullName = document.getElementsByName('fullname')[0].value;
+                    const email = document.getElementsByName('email')[0].value;
+                    const password = document.getElementsByName('password')[1].value; // Use the second password input in sign-up
+                    const confirmPassword = document.getElementsByName('confirm-password')[0].value;
+
+                    if (password !== confirmPassword) {
+                        alert("Passwords do not match!");
+                    } else {
+                        // Store user data in localStorage
+                        localStorage.setItem('email', email);
+                        localStorage.setItem('password', password);
+                        alert("User registered successfully!");
+                    }
+                } else if (event.target.id === 'signin-form') {
+                    const username = document.getElementsByName('username')[0].value;
+                    const password = document.getElementsByName('password')[0].value; // Use the first password input in sign-in
+
+                    // Retrieve user data from localStorage
+                    const storedEmail = localStorage.getItem('email');
+                    const storedPassword = localStorage.getItem('password');
+
+                    if (username === storedEmail && password === storedPassword) {
+                        alert("Sign-in successful!");
+                    } else {
+                        alert("Incorrect username or password.");
+                    }
+                }
+            }
+
+            
+            signInForm.addEventListener('submit', handleForm);
+            signUpForm.addEventListener('submit', handleForm);
+        });
+    </script>
+</body>
+</html>
